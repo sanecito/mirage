@@ -1119,34 +1119,34 @@ class MatrixClient(nio.AsyncClient):
         )
 
         # List members that left the room, then remove them from our model
-        left_the_room = [
-            user_id
-            for user_id in self.models[self.user_id, room.room_id, "members"]
-            if user_id not in room.users
-        ]
+        # left_the_room = [
+        #     user_id
+        #     for user_id in self.models[self.user_id, room.room_id, "members"]
+        #     if user_id not in room.users
+        # ]
 
-        for user_id in left_the_room:
-            del self.models[self.user_id, room.room_id, "members"][user_id]
-            HTML.rooms_user_id_names[room.room_id].pop(user_id, None)
+        # for user_id in left_the_room:
+        #     del self.models[self.user_id, room.room_id, "members"][user_id]
+        #     HTML.rooms_user_id_names[room.room_id].pop(user_id, None)
 
-        # Add the room members to the added room
-        new_dict = {
-            user_id: Member(
-                id           = user_id,
-                display_name = room.user_name(user_id)  # disambiguated
-                               if member.display_name else "",
-                avatar_url   = member.avatar_url or "",
-                typing       = user_id in room.typing_users,
-                power_level  = member.power_level,
-                invited      = member.invited,
-            ) for user_id, member in room.users.items()
-        }
-        self.models[self.user_id, room.room_id, "members"].update(new_dict)
+        # # Add the room members to the added room
+        # new_dict = {
+        #     user_id: Member(
+        #         id           = user_id,
+        #         display_name = room.user_name(user_id)  # disambiguated
+        #                        if member.display_name else "",
+        #         avatar_url   = member.avatar_url or "",
+        #         typing       = user_id in room.typing_users,
+        #         power_level  = member.power_level,
+        #         invited      = member.invited,
+        #     ) for user_id, member in room.users.items()
+        # }
+        # self.models[self.user_id, room.room_id, "members"].update(new_dict)
 
-        for user_id, member in room.users.items():
-            if member.display_name:
-                HTML.rooms_user_id_names[room.room_id][user_id] = \
-                    member.display_name
+        # for user_id, member in room.users.items():
+        #     if member.display_name:
+        #         HTML.rooms_user_id_names[room.room_id][user_id] = \
+        #             member.display_name
 
 
     async def get_member_name_avatar(
